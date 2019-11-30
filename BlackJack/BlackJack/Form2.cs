@@ -158,8 +158,6 @@ namespace BlackJack
             if (BetChecker())
             {
                 textBox4.ReadOnly = true;
-                PlayerBalance -= PlayerBet;
-                textBox1.Text = Convert.ToString(PlayerBalance);
                 button3.Enabled = false;
             }
             else
