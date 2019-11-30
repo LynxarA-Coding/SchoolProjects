@@ -13,11 +13,8 @@ namespace BlackJack
 {
     public partial class Form1 : Form
     {
-        struct Player
-        {
-            public string login;
-            public int balance;
-        }
+        public string PlayerLogin;
+        public int PlayerBalance;
         public Form1()
         {
             InitializeComponent();
@@ -63,19 +60,17 @@ namespace BlackJack
 
             if (flag)
             {
-                Player User = new Player();
-
-                User.login = inputLogin;
-                User.balance = 5000;
-
-               
+                PlayerLogin = inputLogin;
+                PlayerBalance = 5000;
 
                 StreamWriter SW = new StreamWriter("database.txt", true);
-                SW.WriteLine("[{0}]{1}|{2}", User.login, inputPassword, User.balance);
+                SW.WriteLine("[{0}]{1}|{2}", PlayerLogin, inputPassword, PlayerBalance);
 
                 SW.Close();
 
                 this.Hide();
+                Form2.textBox1.Text = Convert.ToString(PlayerBalance);
+                Form2.label1.Text = PlayerLogin;
                 Form2.ShowDialog();
                 this.Show();
             }
@@ -116,12 +111,12 @@ namespace BlackJack
             {
                 if (PasswordCheck(temporaryString, inputPassword))
                 {
-                    Player User = new Player();
-
-                    User.login = inputLogin;
-                    User.balance = Convert.ToInt32(temporaryString.Substring(temporaryString.IndexOf('|') + 1, temporaryString.Length - temporaryString.IndexOf('|') - 1));
+                   PlayerLogin = inputLogin;
+                   PlayerBalance = Convert.ToInt32(temporaryString.Substring(temporaryString.IndexOf('|') + 1, temporaryString.Length - temporaryString.IndexOf('|') - 1));
 
                     this.Hide();
+                    Form2.textBox1.Text = Convert.ToString(PlayerBalance);
+                    Form2.label1.Text = PlayerLogin;
                     Form2.ShowDialog();
                     this.Show();
                 }
