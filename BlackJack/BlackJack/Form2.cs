@@ -148,7 +148,7 @@ namespace BlackJack
 
         private void Form2_Load(object sender, EventArgs e)
         {
-
+             
         }
 
         private void button3_Click(object sender, EventArgs e) // do a bet
