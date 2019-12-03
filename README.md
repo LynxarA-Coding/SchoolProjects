@@ -1,4 +1,2 @@
 # SchoolProjects
-
-sanya gay
  
