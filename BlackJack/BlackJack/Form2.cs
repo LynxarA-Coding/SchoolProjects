@@ -266,7 +266,7 @@ namespace BlackJack
         {
             MessageBox.Show("Вы победили!", "Поздравляем", MessageBoxButtons.OK, MessageBoxIcon.Information);
             button3.Enabled = true;
-            textBox4.Enabled = true;
+            textBox4.ReadOnly = false;
             PlayerBalance += PlayerBet * 2;
             textBox1.Text = Convert.ToString(PlayerBalance);
 
@@ -279,7 +279,7 @@ namespace BlackJack
         {
             MessageBox.Show("Вы проиграли!", "Сожалеем", MessageBoxButtons.OK, MessageBoxIcon.Information);
             button3.Enabled = true;
-            textBox4.Enabled = true;
+            textBox4.ReadOnly = false;
             PlayerBalance -= PlayerBet;
             textBox1.Text = Convert.ToString(PlayerBalance);
 
@@ -292,7 +292,7 @@ namespace BlackJack
         {
             MessageBox.Show("Ничья!", "Бывает", MessageBoxButtons.OK, MessageBoxIcon.Information);
             button3.Enabled = true;
-            textBox4.Enabled = true;
+            textBox4.ReadOnly = false;
             textBox1.Text = Convert.ToString(PlayerBalance);
 
             button1.Enabled = true;
