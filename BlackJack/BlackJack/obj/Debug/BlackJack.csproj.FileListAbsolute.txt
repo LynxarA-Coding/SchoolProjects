@@ -29,3 +29,14 @@ C:\Users\Спрунтер\Desktop\repos\SchoolProjects\BlackJack\BlackJack\obj\D
 C:\Users\Спрунтер\Desktop\repos\SchoolProjects\BlackJack\BlackJack\obj\Debug\BlackJack.csproj.GenerateResource.cache
 C:\Users\Спрунтер\Desktop\repos\SchoolProjects\BlackJack\BlackJack\obj\Debug\BlackJack.exe
 C:\Users\Спрунтер\Desktop\repos\SchoolProjects\BlackJack\BlackJack\obj\Debug\BlackJack.pdb
+C:\Users\user\Desktop\SchoolProjects-master\BlackJack\BlackJack\obj\Debug\BlackJack.csprojAssemblyReference.cache
+C:\Users\user\Desktop\SchoolProjects-master\BlackJack\BlackJack\obj\Debug\BlackJack.Form1.resources
+C:\Users\user\Desktop\SchoolProjects-master\BlackJack\BlackJack\obj\Debug\BlackJack.Form2.resources
+C:\Users\user\Desktop\SchoolProjects-master\BlackJack\BlackJack\obj\Debug\BlackJack.Properties.Resources.resources
+C:\Users\user\Desktop\SchoolProjects-master\BlackJack\BlackJack\obj\Debug\BlackJack.csproj.GenerateResource.cache
+C:\Users\user\Desktop\SchoolProjects-master\BlackJack\BlackJack\obj\Debug\BlackJack.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\SchoolProjects-master\BlackJack\BlackJack\obj\Debug\BlackJack.exe
+C:\Users\user\Desktop\SchoolProjects-master\BlackJack\BlackJack\obj\Debug\BlackJack.pdb
+C:\Users\user\Desktop\SchoolProjects-master\BlackJack\BlackJack\bin\Debug\BlackJack.exe.config
+C:\Users\user\Desktop\SchoolProjects-master\BlackJack\BlackJack\bin\Debug\BlackJack.exe
+C:\Users\user\Desktop\SchoolProjects-master\BlackJack\BlackJack\bin\Debug\BlackJack.pdb

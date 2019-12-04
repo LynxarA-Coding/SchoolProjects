@@ -30,6 +30,8 @@ namespace BlackJack
 
             EnemyPosition = 0;
             PlayerPosition = 0;
+            EnemyHandCounter = 0;
+            PlayerHandCounter = 0;
         }
 
         public int PlayerBalance;
@@ -42,6 +44,9 @@ namespace BlackJack
         public int[] Deck = new int[14]; // number of cards left in the deck, 0 - nothing, 1 - 2, 2 - 3 ... 10 - Jack, 11 - Queen, 12 - King, 13 - Ace
         public int[] EnemyHand = new int[9]; // enemy cards in hand
         public int[] PlayerHand = new int[9]; // player cards in hand
+
+        public int EnemyHandCounter;
+        public int PlayerHandCounter;
 
         public bool BetChecker() // checks bet
         {
@@ -106,6 +111,9 @@ namespace BlackJack
             {
                 Deck[i] = 4;
             }
+
+            EnemyHandCounter = 0;
+            PlayerHandCounter = 0;
         }
 
         public void StarterHandGeneration() // generates starter hand
@@ -126,6 +134,25 @@ namespace BlackJack
 
                 Deck[temporaryRandomNumber]--;
                 textBox2.Text = textBox2.Text + ' ' + NumberConverter(temporaryRandomNumber);
+                switch (temporaryRandomNumber)
+                {
+                    case 10:
+                        EnemyHandCounter += 10;
+                        break;
+                    case 11:
+                        EnemyHandCounter += 10;
+                        break;
+                    case 12:
+                        EnemyHandCounter += 10;
+                        break;
+                    case 13:
+                        EnemyHandCounter += 11;
+                        break;
+                    default:
+                        EnemyHandCounter += temporaryRandomNumber + 1;
+                        break;
+                }
+                textBox5.Text = Convert.ToString(EnemyHandCounter);
 
                 temporaryRandomNumber = RandomNumberGenerator(Random);
             }
@@ -141,14 +168,137 @@ namespace BlackJack
 
                 Deck[temporaryRandomNumber]--;
                 textBox3.Text = textBox3.Text + ' ' + NumberConverter(temporaryRandomNumber);
+                switch (temporaryRandomNumber)
+                {
+                    case 10:
+                        PlayerHandCounter += 10;
+                        break;
+                    case 11:
+                        PlayerHandCounter += 10;
+                        break;
+                    case 12:
+                        PlayerHandCounter += 10;
+                        break;
+                    case 13:
+                        PlayerHandCounter += 11;
+                        break;
+                    default:
+                        PlayerHandCounter += temporaryRandomNumber + 1;
+                        break;
+                }
+                textBox6.Text = Convert.ToString(PlayerHandCounter);
 
                 temporaryRandomNumber = RandomNumberGenerator(Random);
             }
         }
 
+        public void CardTaker(string handType)
+        {
+            Random Random = new Random();
+            int temporaryCard = RandomNumberGenerator(Random);
+
+            if (handType == "enemy")
+            {
+                while (Deck[temporaryCard] == 0)
+                {
+                    temporaryCard = RandomNumberGenerator(Random);
+                }
+
+                Deck[temporaryCard]--;
+
+                textBox2.Text = textBox2.Text + ' ' + NumberConverter(temporaryCard);
+                switch (temporaryCard)
+                {
+                    case 10:
+                        EnemyHandCounter += 10;
+                        break;
+                    case 11:
+                        EnemyHandCounter += 10;
+                        break;
+                    case 12:
+                        EnemyHandCounter += 10;
+                        break;
+                    case 13:
+                        EnemyHandCounter += 11;
+                        break;
+                    default:
+                        EnemyHandCounter += temporaryCard + 1;
+                        break;
+                }
+                textBox5.Text = Convert.ToString(EnemyHandCounter);
+
+                temporaryCard = RandomNumberGenerator(Random);
+            }
+            else
+            {
+                while (Deck[temporaryCard] == 0)
+                {
+                    temporaryCard = RandomNumberGenerator(Random);
+                }
+
+                Deck[temporaryCard]--;
+
+                textBox3.Text = textBox3.Text + ' ' + NumberConverter(temporaryCard);
+                switch (temporaryCard)
+                {
+                    case 10:
+                        PlayerHandCounter += 10;
+                        break;
+                    case 11:
+                        PlayerHandCounter += 10;
+                        break;
+                    case 12:
+                        PlayerHandCounter += 10;
+                        break;
+                    case 13:
+                        PlayerHandCounter += 11;
+                        break;
+                    default:
+                        PlayerHandCounter += temporaryCard + 1;
+                        break;
+                }
+                textBox6.Text = Convert.ToString(PlayerHandCounter);
+
+                temporaryCard = RandomNumberGenerator(Random);
+
+                WinChecker();
+            }
+        } // takes card according to taking type
+
+        public void PlayerWin()
+        {
+            MessageBox.Show("Вы победили!", "Поздравляем", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            button3.Enabled = true;
+            textBox4.Enabled = true;
+            PlayerBalance += PlayerBet * 2;
+            textBox1.Text = Convert.ToString(PlayerBalance);
+        }
+
+        public void PlayerLost()
+        {
+            MessageBox.Show("Вы проиграли!", "Сожалеем", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            button3.Enabled = true;
+            textBox4.Enabled = true;
+            PlayerBalance -= PlayerBet;
+            textBox1.Text = Convert.ToString(PlayerBalance);
+        }
+
+        public void WinChecker()
+
+        {
+            if (PlayerHandCounter == 21)
+            {
+                PlayerWin();
+            }
+            else if (PlayerHandCounter > 21)
+            {
+                PlayerLost();
+            }
+        }
+
         private void Form2_Load(object sender, EventArgs e)
         {
-             
+
         }
 
         private void button3_Click(object sender, EventArgs e) // do a bet
@@ -168,6 +318,18 @@ namespace BlackJack
 
             HandEraser();
             StarterHandGeneration();
+        }
+
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            if (button3.Enabled)
+            {
+                MessageBox.Show("Прежде чем играть, сделайте ставку!", "Недопустимое действие", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                CardTaker("player");
+            }
         }
     }
 }
