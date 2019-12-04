@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -6,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace BlackJack
@@ -15,26 +17,10 @@ namespace BlackJack
         public Form2()
         {
             InitializeComponent();
-            PlayerLogin = label1.Text;
-            for (int i = 1; i <= 13; i++)
-            {
-                Deck[i] = 4;
-            }
-            PlayerBet = 0;
-
-            for (int i = 0; i < 9; i++)
-            {
-                EnemyHand[i] = 0;
-                PlayerHand[i] = 0;
-            }
-
-            EnemyPosition = 0;
-            PlayerPosition = 0;
-            EnemyHandCounter = 0;
-            PlayerHandCounter = 0;
         }
 
         public int PlayerBalance;
+        public int OldPlayerBalance;
         public string PlayerLogin;
         public int PlayerBet; // current player bet
 
@@ -94,7 +80,7 @@ namespace BlackJack
         public int RandomNumberGenerator(Random Random)
         {
             return Random.Next(1, 13);
-        }
+        } // generates number 1 to 13
 
         public void HandEraser() // makes no cards in hand
         {
@@ -190,6 +176,8 @@ namespace BlackJack
 
                 temporaryRandomNumber = RandomNumberGenerator(Random);
             }
+
+            WinChecker();
         }
 
         public void CardTaker(string handType)
@@ -265,6 +253,15 @@ namespace BlackJack
             }
         } // takes card according to taking type
 
+        public void EnemyAI()
+        {
+            while (EnemyHandCounter <= 17)
+            {
+                Thread.Sleep(500);
+                CardTaker("enemy");
+            }
+        } // AI for enemy
+
         public void PlayerWin()
         {
             MessageBox.Show("Вы победили!", "Поздравляем", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -272,7 +269,11 @@ namespace BlackJack
             textBox4.Enabled = true;
             PlayerBalance += PlayerBet * 2;
             textBox1.Text = Convert.ToString(PlayerBalance);
-        }
+
+            button1.Enabled = true;
+            button2.Enabled = true;
+            DataSaver();
+        } // function for game win
 
         public void PlayerLost()
         {
@@ -281,7 +282,63 @@ namespace BlackJack
             textBox4.Enabled = true;
             PlayerBalance -= PlayerBet;
             textBox1.Text = Convert.ToString(PlayerBalance);
+
+            button1.Enabled = true;
+            button2.Enabled = true;
+            DataSaver();
+        } // function for lost game
+
+        public void PlayerDraw() // draw
+        {
+            MessageBox.Show("Ничья!", "Бывает", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            button3.Enabled = true;
+            textBox4.Enabled = true;
+            textBox1.Text = Convert.ToString(PlayerBalance);
+
+            button1.Enabled = true;
+            button2.Enabled = true;
+            DataSaver();
         }
+
+        public void DataSaver()
+        {
+            PlayerLogin = label1.Text;
+            StreamReader SR = new StreamReader("database.txt");
+            int fileLength = 0;
+
+            while (!SR.EndOfStream)
+            {
+                fileLength++;
+                SR.ReadLine();
+            }
+            SR.Close();
+
+            StreamReader SR2 = new StreamReader("database.txt");
+            string[] file = new string[fileLength];
+
+            for (int i = 0; i < fileLength; i++)
+            {
+                file[i] = SR2.ReadLine();
+
+                if (file[i].Contains(Convert.ToString(PlayerLogin)))
+                {
+                    file[i] = file[i].Replace(Convert.ToString(OldPlayerBalance), Convert.ToString(PlayerBalance));
+                }
+            }
+
+            SR2.Close();
+
+            File.Delete("database.txt");
+            File.WriteAllText("database.txt", "");
+
+            StreamWriter SW = new StreamWriter("database.txt");
+
+            for (int i = 0; i < fileLength; i++)
+            {
+                SW.WriteLine(file[i]);
+            }
+            SW.Close();
+        } // saves to notepad
 
         public void WinChecker()
 
@@ -294,11 +351,53 @@ namespace BlackJack
             {
                 PlayerLost();
             }
+        } // first checker
+
+        public void WinCheckerGameEnd() // last checker
+        {
+            if (EnemyHandCounter > 21)
+            {
+                PlayerWin();
+            }
+            else if (EnemyHandCounter == PlayerHandCounter && PlayerHandCounter == 21)
+            {
+                PlayerDraw();
+            }
+            else if (EnemyHandCounter == PlayerHandCounter)
+            {
+                PlayerDraw();
+            }
+            else if (EnemyHandCounter < PlayerHandCounter)
+            {
+                PlayerWin();
+            }
+            else
+            {
+                PlayerLost();
+            }
         }
 
         private void Form2_Load(object sender, EventArgs e)
         {
+            PlayerLogin = label1.Text;
+            PlayerBalance = Convert.ToInt32(textBox1.Text);
+            for (int i = 1; i <= 13; i++)
+            {
+                Deck[i] = 4;
+            }
+            PlayerBet = 0;
 
+            for (int i = 0; i < 9; i++)
+            {
+                EnemyHand[i] = 0;
+                PlayerHand[i] = 0;
+            }
+
+            EnemyPosition = 0;
+            PlayerPosition = 0;
+            EnemyHandCounter = 0;
+            PlayerHandCounter = 0;
+            OldPlayerBalance = PlayerBalance;
         }
 
         private void button3_Click(object sender, EventArgs e) // do a bet
@@ -330,6 +429,15 @@ namespace BlackJack
             {
                 CardTaker("player");
             }
-        }
+        } // button for player to take a card
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            button1.Enabled = false;
+            button2.Enabled = false;
+
+            EnemyAI();
+            WinCheckerGameEnd();
+        } // player turn end button
     }
 }

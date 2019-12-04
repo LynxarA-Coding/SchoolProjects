@@ -80,7 +80,7 @@ namespace BlackJack
                 textBox1.Text = "";
                 textBox2.Text = "";
             }
-        }
+        } // register
 
         private void button2_Click(object sender, EventArgs e)
         {
@@ -100,6 +100,8 @@ namespace BlackJack
                     break;
                 }
             }
+
+            SR.Close();
 
             if (flag == false)
             {
@@ -127,9 +129,7 @@ namespace BlackJack
                     textBox2.Text = "";
                 }
             }
-
-            SR.Close();
-        }
+        } // login
 
         private void Form1_Load(object sender, EventArgs e)
         {
