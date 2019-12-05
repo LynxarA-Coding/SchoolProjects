@@ -214,7 +214,6 @@ namespace BlackJack
                         break;
                 }
                 textBox5.Text = Convert.ToString(EnemyHandCounter);
-
                 temporaryCard = RandomNumberGenerator(Random);
             }
             else
@@ -257,7 +256,6 @@ namespace BlackJack
         {
             while (EnemyHandCounter <= 17)
             {
-                Thread.Sleep(500);
                 CardTaker("enemy");
             }
         } // AI for enemy
